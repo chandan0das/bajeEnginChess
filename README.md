@@ -26,21 +26,9 @@ make play
 bajeEngin play
 ```
 This way you can play in CLI.
-```
 
-    -500    -320    -330    -975-2000000    -330    -320    -500
-    -100    -100    -100    -100    -100    -100    -100    -100
-       0       0       0       0       0       0       0       0
-       0       0       0       0       0       0       0       0
-       0       0       0       0       0       0       0       0
-       0       0       0       0       0       0       0       0
-     100     100     100     100     100     100     100     100
-     500     320     330     975 2000000     330     320     500
- tomove: 0 eval: 0.000000
-You play WHITE by default.
-Enter move as e2e4, e7e8q, 0-0, 0-0-0  |  'b' = play as Black  |  'q' = quit
+![Alt text](Cli-preview.png)
 
-```
 But I will prefer it to play in GUI.
 Such as,
 ```

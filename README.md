@@ -19,5 +19,12 @@ Current version: **0.07**
 gcc -O3 -o bajeEngin bajeEngin07.c -lm
 ```
 or just use the **Makefile**
+You can play with it on terminal as,
+```bash
+make play
+# or
+bajeEngin play
+```
+
 ## Caution
 **If It takes too much time to make move try changing the depth to smaller vlues**

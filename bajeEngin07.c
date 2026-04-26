@@ -105,12 +105,51 @@ int evaluate(struct node* n) {
 }
 
 // == Debug / Display ========================================
+void print_pice(int pice, int sq) {
+	sq += ((sq/8)%2)? 0 : 1; 
+	if (sq % 2) { //black
+		printf("\033[107m\033[30m");
+		switch(pice) {
+			case -KING  : printf(" ♚  "); break;
+			case -QUEEN : printf(" ♛  "); break;
+			case -ROOK  : printf(" ♜  "); break;
+			case -KNIGHT: printf(" ♝  "); break;
+			case -BISHOP: printf(" ♞  "); break;
+			case -PAWN  : printf(" ♟  "); break;
+			case KING  : printf(" ♔  "); break;
+			case QUEEN : printf(" ♕  "); break;
+			case ROOK  : printf(" ♖  "); break;
+			case KNIGHT: printf(" ♗  "); break;
+			case BISHOP: printf(" ♘  "); break;
+			case PAWN  : printf(" ♙  "); break;
+			default    : printf("    ");
+		}
+	}
+	else {
+		printf("\033[97m\033[40m");
+		switch(pice) {
+			case KING  : printf(" ♚  "); break;
+			case QUEEN : printf(" ♛  "); break;
+			case ROOK  : printf(" ♜  "); break;
+			case KNIGHT: printf(" ♝  "); break;
+			case BISHOP: printf(" ♞  "); break;
+			case PAWN  : printf(" ♟  "); break;
+			case -KING  : printf(" ♔  "); break;
+			case -QUEEN : printf(" ♕  "); break;
+			case -ROOK  : printf(" ♖  "); break;
+			case -KNIGHT: printf(" ♗  "); break;
+			case -BISHOP: printf(" ♘  "); break;
+			case -PAWN  : printf(" ♙  "); break;
+			default    : printf("    ");
+		}
+	}
+}
 void print_board(struct node* n) {
 	for (int i = 0; i < 64; i++) {
 		if (i % 8 == 0) printf("\n");
-		printf("%8d", n->board[i]);
+		print_pice(n->board[i], i);
 	}
-	printf("\n tomove: %d eval: %f\n", n->tomove, (float)n->fpoint / 100);
+	printf("\033[0m\n tomove: %d eval: %f\n", n->tomove, (float)n->fpoint / 100);
 }
 
 int square_to_index(const char* s) {
@@ -415,6 +454,11 @@ cutoff:
 
 // == Console play mode ==========================
 void console_play(void) {
+		#ifdef _WIN32
+			system("cls");
+		#else
+			system("clear");
+		#endif
 	init_board();
 	print_board(root);
 	char line[256];
@@ -459,7 +503,11 @@ void console_play(void) {
 			continue;
 		}
  
-		system("clear");
+		#ifdef _WIN32
+			system("cls");
+		#else
+			system("clear");
+		#endif
 		print_board(root);
  
 		if (any_king_isDead(root)) {

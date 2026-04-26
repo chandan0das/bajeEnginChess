@@ -12,11 +12,13 @@ CFLAGS   = -Wall
 LINKS    = -lm
 OPTIONS  = $(LINKS) $(CFLAGS) 
 
-all: $(BIN)
-	./$(BIN)
-	
+all: $(BIN)	
 $(BIN): $(INFILE)
 	$(CC) -o $(BIN) $(INFILE) $(OPTIONS)
+	
+play: $(BIN)
+	./$(BIN) play
+
 
 clean:
 	$(RM) $(BIN)

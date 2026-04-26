@@ -413,8 +413,95 @@ cutoff:
 	return res;
 }
 
-// == UCI mode ==============================================─
+// == Console play mode ==========================
+void console_play(void) {
+	init_board();
+	print_board(root);
+	char line[256];
+	printf("You play WHITE by default.\n");
+	printf("Enter move as e2e4, e7e8q, 0-0, 0-0-0  |  'b' = play as Black  |  'q' = quit\n");
+	while (fgets(line, sizeof(line), stdin)) {
+		line[strcspn(line, "\n")] = 0;
+		if (strcmp(line, "q") == 0 || strcmp(line, "quit") == 0) break;
+ 
+		if (strcmp(line, "b") == 0) {
+			// Switch sides: engine plays white's first move immediately
+			root->tomove = 0;
+			printf("You are Black. Engine thinking...\n");
+			goto engine_turn;
+		}
+		// Castling: translate to king two-square move; make_move handles the rook internally
+		else if (strcmp(line, "0-0") == 0 || strcmp(line, "O-O") == 0) {
+			int from = (root->tomove == 0) ? 60 : 4;
+			int to   = (root->tomove == 0) ? 62 : 6;
+			if (root->board[from] == 0) { printf("Illegal: no king on expected square\n"); continue; }
+			make_move(root, from, to);
+		}
+		else if (strcmp(line, "0-0-0") == 0 || strcmp(line, "O-O-O") == 0) {
+			int from = (root->tomove == 0) ? 60 : 4;
+			int to   = (root->tomove == 0) ? 58 : 2;
+			if (root->board[from] == 0) { printf("Illegal: no king on expected square\n"); continue; }
+			make_move(root, from, to);
+		}
+		else if (strlen(line) >= 4) {
+			char from_str[3] = {line[0], line[1], 0};
+			char to_str[3]   = {line[2], line[3], 0};
+			int from = square_to_index(from_str);
+			int to   = square_to_index(to_str);
+			if (from < 0 || to < 0 || root->board[from] == 0) {
+				printf("Illegal move format\n");
+				continue;
+			}
+			make_move(root, from, to);
+		}
+		else {
+			printf("Unknown input\n");
+			continue;
+		}
+ 
+		system("clear");
+		print_board(root);
+ 
+		if (any_king_isDead(root)) {
+			printf("Game over.\n");
+			break;
+		}
+ 
+engine_turn:
+		printf("Thinking...\n");
+		nodecount = 0;
+		SearchResult r = minimax(root, DEPTH, -INF, INF);
+		if (r.from >= 0 && r.to >= 0) {
+			char buf_from[8], buf_to[8];
+			index_to_square(r.from, buf_from);
+			index_to_square(r.to,   buf_to);
+			printf("Engine plays: %s%s  (eval %+.2f,  nodes %d)\n",
+			       buf_from, buf_to, (float)r.score / 100, 2 * nodecount - 1);
+			make_move(root, r.from, r.to);
+			system("clear");
+			print_board(root);
+			if (any_king_isDead(root)) {
+				printf("Game over.\n");
+				break;
+			}
+			printf("Your move: ");
+			fflush(stdout);
+		} else {
+			printf("Engine has no legal moves (checkmate / stalemate).\n");
+			break;
+		}
+	}
+	free(root);
+	root = NULL;
+}
+ 
+// == UCI mode ================================
 int main(int argc, char** argv) {
+	srand(time(NULL));
+	if (argc > 1 && strcmp(argv[1], "play") == 0) {
+		console_play();
+		return 0;
+	}
 	srand(time(NULL));
 	init_board();
 	char line[4096];

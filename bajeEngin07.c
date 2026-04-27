@@ -113,14 +113,14 @@ void print_pice(int pice, int sq) {
 			case -KING  : printf(" ♚  "); break;
 			case -QUEEN : printf(" ♛  "); break;
 			case -ROOK  : printf(" ♜  "); break;
-			case -KNIGHT: printf(" ♝  "); break;
-			case -BISHOP: printf(" ♞  "); break;
+			case -BISHOP: printf(" ♝  "); break;
+			case -KNIGHT: printf(" ♞  "); break;
 			case -PAWN  : printf(" ♟  "); break;
 			case KING  : printf(" ♔  "); break;
 			case QUEEN : printf(" ♕  "); break;
 			case ROOK  : printf(" ♖  "); break;
-			case KNIGHT: printf(" ♗  "); break;
-			case BISHOP: printf(" ♘  "); break;
+			case BISHOP: printf(" ♗  "); break;
+			case KNIGHT: printf(" ♘  "); break;
 			case PAWN  : printf(" ♙  "); break;
 			default    : printf("    ");
 		}
@@ -131,14 +131,14 @@ void print_pice(int pice, int sq) {
 			case KING  : printf(" ♚  "); break;
 			case QUEEN : printf(" ♛  "); break;
 			case ROOK  : printf(" ♜  "); break;
-			case KNIGHT: printf(" ♝  "); break;
-			case BISHOP: printf(" ♞  "); break;
+			case BISHOP: printf(" ♝  "); break;
+			case KNIGHT: printf(" ♞  "); break;
 			case PAWN  : printf(" ♟  "); break;
 			case -KING  : printf(" ♔  "); break;
 			case -QUEEN : printf(" ♕  "); break;
 			case -ROOK  : printf(" ♖  "); break;
-			case -KNIGHT: printf(" ♗  "); break;
-			case -BISHOP: printf(" ♘  "); break;
+			case -BISHOP: printf(" ♗  "); break;
+			case -KNIGHT: printf(" ♘  "); break;
 			case -PAWN  : printf(" ♙  "); break;
 			default    : printf("    ");
 		}
@@ -452,6 +452,15 @@ cutoff:
 	return res;
 }
 
+void print_banner(void) {
+	printf(
+" _           _     ___           _\n"
+"| |__  __ _ (_)___| __|_ _  __ _(_)_ _\n"
+"| '_ \\/ _` || / -_) _|| ' \\/ _` | | ' \\\n"
+"|_.__/\\__,_|/ \\___|___|_||_\\__, |_|_||_|\n"
+"          |__/             |___/\n");
+}
+
 // == Console play mode ==========================
 void console_play(void) {
 		#ifdef _WIN32
@@ -459,6 +468,7 @@ void console_play(void) {
 		#else
 			system("clear");
 		#endif
+	print_banner();
 	init_board();
 	print_board(root);
 	char line[256];
@@ -560,6 +570,7 @@ int main(int argc, char** argv) {
 		char cmd[64];
 		if (sscanf(line, "%63s", cmd) != 1) continue;
 		if (strcmp(cmd, "uci") == 0) {
+			print_banner();
 			puts("id name bajeEngin.0.07 - Chandan Das");
 			puts("id author Chandan Das");
 			puts("uciok");

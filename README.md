@@ -27,7 +27,7 @@ bajeEngin play
 ```
 This way you can play in CLI.
 
-![Alt text](Cli-preview.png)
+![Alt text](assets/Cli-preview.png)
 
 But I will prefer it to play in GUI.
 Such as,

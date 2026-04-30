@@ -163,7 +163,7 @@ int square_to_index(const char* s) {
 void index_to_square(int idx, char* buf) {
 	int r = idx / 8;
 	int f = idx % 8;
-	sprintf(buf, "%c%d", 'a' + f, 8 - r);
+	sprintf(buf, "%c%hd", 'a' + f, 8 - r);
 }
 
 int pos(int r, int c) {

@@ -8,7 +8,7 @@ INFILE   = bajeEngin07.c
 BIN      = bajeEngin
 
 
-CFLAGS   = -Wall
+CFLAGS   = -O3 -s
 LINKS    = -lm
 OPTIONS  = $(LINKS) $(CFLAGS) 
 
